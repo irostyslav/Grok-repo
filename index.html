@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Grok-repo — Published apps</title>
+  <style>
+    :root { --bg:#0b1220; --panel:#121a2b; --border:#263247; --text:#e8eef9; --muted:#8b9bb4; --accent:#1b96ff; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: system-ui, sans-serif; background: radial-gradient(900px 500px at 0% 0%, rgba(27,150,255,.2), transparent), var(--bg); color: var(--text); min-height:100vh; }
+    .wrap { max-width: 820px; margin: 0 auto; padding: 40px 20px 80px; }
+    h1 { margin:0 0 8px; letter-spacing:-0.02em; }
+    p { color: var(--muted); line-height:1.5; }
+    .card { display:block; margin-top:20px; padding:18px 20px; background:var(--panel); border:1px solid var(--border); border-radius:16px; text-decoration:none; color:inherit; transition:.15s; }
+    .card:hover { border-color: var(--accent); transform: translateY(-1px); }
+    .card h2 { margin:0 0 6px; font-size:1.15rem; color:#fff; }
+    .card span { color: var(--accent); font-size:.9rem; font-weight:600; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Grok-repo</h1>
+    <p>Live web apps published from our work together. Open any card for the direct GitHub Pages URL.</p>
+    <a class="card" href="./apps/youtube-business-calculator/">
+      <h2>YouTube Business Model Calculator</h2>
+      <p>Interactive AdSense + sponsorship + audience model for a Salesforce AI / Agent Exchange channel.</p>
+      <span>Open app →</span>
+    </a>
+  </div>
+</body>
+</html>

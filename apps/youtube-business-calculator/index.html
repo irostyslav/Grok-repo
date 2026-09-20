@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>YouTube Business Model Calculator — Salesforce AI / Agent Exchange</title>
+  <style>
+    :root {
+      --bg: #0b1220;
+      --panel: #121a2b;
+      --panel2: #182235;
+      --border: #263247;
+      --text: #e8eef9;
+      --muted: #8b9bb4;
+      --accent: #0b5cab;
+      --accent2: #1b96ff;
+      --good: #3dd68c;
+      --warn: #f5a524;
+      --pink: #c86bff;
+      --shadow: 0 12px 40px rgba(0,0,0,.35);
+      --radius: 16px;
+      --font: "Segoe UI", system-ui, -apple-system, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--font);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(27,150,255,.18), transparent 55%),
+        radial-gradient(900px 500px at 100% 0%, rgba(11,92,171,.22), transparent 50%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 28px 20px 64px; }
+    header { margin-bottom: 22px; }
+    header h1 {
+      margin: 0 0 8px;
+      font-size: clamp(1.45rem, 3vw, 2rem);
+      letter-spacing: -0.02em;
+    }
+    header p { margin: 0; color: var(--muted); max-width: 62ch; line-height: 1.5; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 600; color: var(--accent2);
+      background: rgba(27,150,255,.12); border: 1px solid rgba(27,150,255,.35);
+      padding: 4px 10px; border-radius: 999px; margin-bottom: 12px;
+    }
+    .presets { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 8px; }
+    button.preset, button.ghost {
+      appearance: none; border: 1px solid var(--border); background: var(--panel2);
+      color: var(--text); border-radius: 999px; padding: 8px 14px; font-weight: 600;
+      cursor: pointer; transition: .15s ease;
+    }
+    button.preset:hover, button.ghost:hover { border-color: var(--accent2); color: #fff; }
+    button.preset.active {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-color: transparent; color: #fff;
+    }
+    button.ghost { margin-left: auto; }
+    .grid {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 16px;
+      margin-top: 12px;
+    }
+    @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,.03), transparent 40%), var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px 18px 14px;
+    }
+    .card h2 {
+      margin: 0 0 14px;
+      font-size: .95rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--muted);
+    }
+    .field { margin-bottom: 14px; }
+    .field-top {
+      display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+      margin-bottom: 6px;
+    }
+    label { font-size: .92rem; color: var(--text); }
+    .val {
+      font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent2);
+      min-width: 4.5rem; text-align: right;
+    }
+    input[type="range"] {
+      width: 100%; accent-color: var(--accent2); cursor: pointer;
+    }
+    input[type="number"] {
+      width: 100%; background: var(--panel2); border: 1px solid var(--border);
+      color: var(--text); border-radius: 10px; padding: 10px 12px; font-size: 1rem;
+      font-variant-numeric: tabular-nums;
+    }
+    input[type="number"]:focus, input[type="range"]:focus { outline: 2px solid rgba(27,150,255,.45); }
+    .hint { font-size: .78rem; color: var(--muted); margin-top: 4px; line-height: 1.35; }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 560px) { .row2 { grid-template-columns: 1fr; } }
+    .check {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; background: var(--panel2); border-radius: 12px;
+      border: 1px solid var(--border); margin-bottom: 12px;
+    }
+    .check input { width: 18px; height: 18px; accent-color: var(--accent2); }
+    .totals { display: grid; gap: 10px; }
+    .stat {
+      background: var(--panel2); border: 1px solid var(--border);
+      border-radius: 12px; padding: 12px 14px;
+    }
+    .stat.hero {
+      background: linear-gradient(135deg, rgba(11,92,171,.35), rgba(27,150,255,.12));
+      border-color: rgba(27,150,255,.4);
+    }
+    .stat .k { font-size: .78rem; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+    .stat .n {
+      font-size: 1.55rem; font-weight: 800; font-variant-numeric: tabular-nums;
+      margin-top: 2px; letter-spacing: -0.02em;
+    }
+    .stat.hero .n { font-size: 2rem; color: #fff; }
+    .mini { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .bar-wrap { margin-top: 8px; }
+    .bar {
+      display: flex; height: 18px; border-radius: 999px; overflow: hidden;
+      background: #0a101c; border: 1px solid var(--border);
+    }
+    .bar span { display: block; height: 100%; }
+    .legend {
+      display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px;
+      font-size: .8rem; color: var(--muted);
+    }
+    .legend i {
+      display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px;
+    }
+    .rate {
+      margin-top: 12px; padding: 12px; border-radius: 12px;
+      background: rgba(61,214,140,.08); border: 1px solid rgba(61,214,140,.28);
+      font-size: .9rem; line-height: 1.45;
+    }
+    .audience details {
+      margin-top: 16px; border: 1px solid var(--border); border-radius: var(--radius);
+      background: var(--panel); padding: 4px 16px 14px;
+    }
+    .audience summary {
+      cursor: pointer; padding: 12px 0; font-weight: 700; color: var(--text);
+    }
+    .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .pill {
+      background: var(--panel2); border: 1px solid var(--border); border-radius: 10px;
+      padding: 8px 12px; font-size: .85rem;
+    }
+    .pill strong { color: var(--accent2); }
+    footer {
+      margin-top: 18px; color: var(--muted); font-size: .78rem; line-height: 1.45;
+    }
+    .y2 { opacity: .55; pointer-events: none; }
+    .y2.on { opacity: 1; pointer-events: auto; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="badge">YouTube · Salesforce AI / Agent Exchange niche</div>
+      <h1>YouTube Business Model Calculator</h1>
+      <p>Live model for AdSense + sponsorships + optional workshops. Drag any control — totals update instantly. Estimates only, not a forecast.</p>
+      <div class="presets">
+        <button type="button" class="preset" data-preset="conservative">Conservative</button>
+        <button type="button" class="preset active" data-preset="base">Base</button>
+        <button type="button" class="preset" data-preset="upside">Upside</button>
+        <button type="button" class="ghost" id="resetBtn">Reset to Base</button>
+      </div>
+    </header>
+
+    <div class="grid">
+      <section class="card">
+        <h2>Inputs</h2>
+
+        <div class="field">
+          <div class="field-top"><label for="videos">Videos per year</label><span class="val" id="videosOut">50</span></div>
+          <input type="range" id="videos" min="12" max="104" step="1" value="50" />
+        </div>
+
+        <div class="field">
+          <div class="field-top"><label for="views">Avg views per long video</label><span class="val" id="viewsOut">2,500</span></div>
+          <input type="range" id="views" min="100" max="50000" step="100" value="2500" />
+        </div>
+
+        <div class="row2">
+          <div class="field">
+            <div class="field-top"><label for="rpm">AdSense RPM ($)</label><span class="val" id="rpmOut">9.00</span></div>
+            <input type="range" id="rpm" min="3" max="15" step="0.5" value="9" />
+            <div class="hint">What you keep per 1,000 views after YouTube’s cut. B2B/SaaS-ish often ~$7–$12.</div>
+          </div>
+          <div class="field">
+            <div class="field-top"><label for="unlock">Months until YPP / AdSense</label><span class="val" id="unlockOut">6</span></div>
+            <input type="range" id="unlock" min="0" max="12" step="1" value="6" />
+            <div class="hint">Ads only count for the months after unlock (simple pro-rate).</div>
+          </div>
+        </div>
+
+        <div class="row2">
+          <div class="field">
+            <div class="field-top"><label for="sponsors">Sponsored integrations / year</label><span class="val" id="sponsorsOut">6</span></div>
+            <input type="range" id="sponsors" min="0" max="24" step="1" value="6" />
+          </div>
+          <div class="field">
+            <div class="field-top"><label for="cpm">Sponsorship CPM ($)</label><span class="val" id="cpmOut">80</span></div>
+            <input type="range" id="cpm" min="20" max="150" step="5" value="80" />
+            <div class="hint">B2B SaaS 2026-style benchmarks often ~$65–$100 (cite ~$80).</div>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="field-top"><label for="mult">Placement multiplier</label><span class="val" id="multOut">1.00×</span></div>
+          <input type="range" id="mult" min="1" max="2.5" step="0.1" value="1" />
+          <div class="hint">1.0 ≈ 30s integration · 1.5–2.5 ≈ dedicated Install Review style video.</div>
+        </div>
+
+        <div class="field">
+          <div class="field-top"><label for="workshops">Workshops / advisory ($ / year)</label><span class="val" id="workshopsOut">$0</span></div>
+          <input type="range" id="workshops" min="0" max="50000" step="500" value="0" />
+          <div class="hint">Only after employer conflict rules allow. Keep $0 until then.</div>
+        </div>
+
+        <div class="check">
+          <input type="checkbox" id="y2" />
+          <label for="y2"><strong>Project Year 2</strong> — apply growth multipliers below</label>
+        </div>
+        <div class="row2 y2" id="y2Controls">
+          <div class="field">
+            <div class="field-top"><label for="viewGrow">Y2 views multiplier</label><span class="val" id="viewGrowOut">2.5×</span></div>
+            <input type="range" id="viewGrow" min="1" max="5" step="0.1" value="2.5" />
+          </div>
+          <div class="field">
+            <div class="field-top"><label for="sponsorGrow">Y2 sponsors multiplier</label><span class="val" id="sponsorGrowOut">1.5×</span></div>
+            <input type="range" id="sponsorGrow" min="1" max="3" step="0.1" value="1.5" />
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Live results</h2>
+        <div class="totals">
+          <div class="stat hero">
+            <div class="k" id="totalLabel">Year 1 total revenue</div>
+            <div class="n" id="totalOut">$0</div>
+          </div>
+          <div class="mini">
+            <div class="stat"><div class="k">AdSense / year</div><div class="n" id="adsOut" style="font-size:1.2rem">$0</div></div>
+            <div class="stat"><div class="k">Sponsorships / year</div><div class="n" id="sponOut" style="font-size:1.2rem">$0</div></div>
+            <div class="stat"><div class="k">Workshops / other</div><div class="n" id="otherOut" style="font-size:1.2rem">$0</div></div>
+            <div class="stat"><div class="k">$ per video</div><div class="n" id="perVideoOut" style="font-size:1.2rem">$0</div></div>
+          </div>
+          <div class="stat"><div class="k">Blended $ per 1k views</div><div class="n" id="perKOut" style="font-size:1.2rem">$0</div></div>
+
+          <div class="bar-wrap">
+            <div class="bar" id="bar"></div>
+            <div class="legend">
+              <span><i style="background:#1b96ff"></i>AdSense</span>
+              <span><i style="background:#3dd68c"></i>Sponsors</span>
+              <span><i style="background:#c86bff"></i>Workshops</span>
+            </div>
+          </div>
+
+          <div class="rate" id="rateCard"></div>
+          <div class="hint" id="formulaNote"></div>
+        </div>
+      </section>
+    </div>
+
+    <section class="audience">
+      <details open>
+        <summary>Audience estimator (niche capture)</summary>
+        <div class="field" style="margin-top:8px">
+          <div class="field-top"><label for="niche">Addressable niche size</label><span class="val" id="nicheOut">150,000</span></div>
+          <input type="range" id="niche" min="50000" max="300000" step="5000" value="150000" />
+          <div class="hint">Partners, ISV/SI builders, SF AI PMs/architects who might care over time (~80k–250k band).</div>
+        </div>
+        <div class="field">
+          <div class="field-top"><label for="capture">Year-1 share captured</label><span class="val" id="captureOut">2.0%</span></div>
+          <input type="range" id="capture" min="0.1" max="10" step="0.1" value="2" />
+        </div>
+        <div class="pill-row">
+          <div class="pill">Est. reachable / year: <strong id="reachOut">—</strong></div>
+          <div class="pill">Core fans (~15%): <strong id="fansOut">—</strong></div>
+          <div class="pill">Ecosystem context: <strong>~9k+ partners · ~3.7k AppExchange developers</strong></div>
+        </div>
+      </details>
+    </section>
+
+    <footer>
+      Formulas: AdSense = videos × views / 1000 × RPM × ((12 − unlockMonths) / 12).
+      One sponsorship fee = views / 1000 × CPM × placementMultiplier; annual = fee × sponsor count.
+      Year 2 applies view and sponsor multipliers when enabled; workshops unchanged unless you raise the slider.
+      Benchmarks are illustrative (B2B SaaS / AI creator CPM–RPM ranges). Not financial advice. Personal channel planning tool for Ross — Salesforce AI / Agent Exchange.
+    </footer>
+  </div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const money = (n) => (n < 0 ? "-$" : "$") + Math.abs(n).toLocaleString(undefined, { maximumFractionDigits: 0 });
+    const money1 = (n) => "$" + n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const num = (n) => n.toLocaleString(undefined, { maximumFractionDigits: 0 });
+
+    const presets = {
+      conservative: { videos: 50, views: 800, rpm: 7, unlock: 9, sponsors: 1, cpm: 60, mult: 1, workshops: 0 },
+      base: { videos: 50, views: 2500, rpm: 9, unlock: 6, sponsors: 6, cpm: 80, mult: 1, workshops: 0 },
+      upside: { videos: 50, views: 8000, rpm: 11, unlock: 4, sponsors: 10, cpm: 100, mult: 1.5, workshops: 5000 }
+    };
+
+    const ids = ["videos","views","rpm","unlock","sponsors","cpm","mult","workshops","y2","viewGrow","sponsorGrow","niche","capture"];
+
+    function applyPreset(name) {
+      const p = presets[name];
+      if (!p) return;
+      $("videos").value = p.videos;
+      $("views").value = p.views;
+      $("rpm").value = p.rpm;
+      $("unlock").value = p.unlock;
+      $("sponsors").value = p.sponsors;
+      $("cpm").value = p.cpm;
+      $("mult").value = p.mult;
+      $("workshops").value = p.workshops;
+      document.querySelectorAll(".preset").forEach((b) => b.classList.toggle("active", b.dataset.preset === name));
+      calc();
+    }
+
+    function calc() {
+      let videos = +$("videos").value;
+      let views = +$("views").value;
+      const rpm = +$("rpm").value;
+      const unlock = +$("unlock").value;
+      let sponsors = +$("sponsors").value;
+      const cpm = +$("cpm").value;
+      const mult = +$("mult").value;
+      const workshops = +$("workshops").value;
+      const y2 = $("y2").checked;
+      const viewGrow = +$("viewGrow").value;
+      const sponsorGrow = +$("sponsorGrow").value;
+      const niche = +$("niche").value;
+      const capture = +$("capture").value;
+
+      $("y2Controls").classList.toggle("on", y2);
+
+      if (y2) {
+        views = Math.round(views * viewGrow);
+        sponsors = Math.round(sponsors * sponsorGrow);
+      }
+
+      const adsFraction = Math.max(0, (12 - unlock) / 12);
+      const ads = videos * (views / 1000) * rpm * adsFraction;
+      const feeEach = (views / 1000) * cpm * mult;
+      const spon = feeEach * sponsors;
+      const other = workshops;
+      const total = ads + spon + other;
+      const perVideo = videos ? total / videos : 0;
+      const totalViews = videos * views;
+      const perK = totalViews ? (total / totalViews) * 1000 : 0;
+
+      $("videosOut").textContent = num(+$("videos").value);
+      $("viewsOut").textContent = num(+$("views").value);
+      $("rpmOut").textContent = (+$("rpm").value).toFixed(2);
+      $("unlockOut").textContent = String(unlock);
+      $("sponsorsOut").textContent = String(+$("sponsors").value);
+      $("cpmOut").textContent = String(cpm);
+      $("multOut").textContent = mult.toFixed(2) + "×";
+      $("workshopsOut").textContent = money(workshops);
+      $("viewGrowOut").textContent = viewGrow.toFixed(1) + "×";
+      $("sponsorGrowOut").textContent = sponsorGrow.toFixed(1) + "×";
+      $("nicheOut").textContent = num(niche);
+      $("captureOut").textContent = capture.toFixed(1) + "%";
+
+      $("totalLabel").textContent = y2 ? "Year 2 projected total" : "Year 1 total revenue";
+      $("totalOut").textContent = money(total);
+      $("adsOut").textContent = money(ads);
+      $("sponOut").textContent = money(spon);
+      $("otherOut").textContent = money(other);
+      $("perVideoOut").textContent = money(perVideo);
+      $("perKOut").textContent = money1(perK);
+
+      const sum = ads + spon + other || 1;
+      const aPct = (ads / sum) * 100;
+      const sPct = (spon / sum) * 100;
+      const oPct = (other / sum) * 100;
+      $("bar").innerHTML =
+        `<span style="width:${aPct}%;background:#1b96ff"></span>` +
+        `<span style="width:${sPct}%;background:#3dd68c"></span>` +
+        `<span style="width:${oPct}%;background:#c86bff"></span>`;
+
+      const baseViews = +$("views").value;
+      const baseFee = (baseViews / 1000) * cpm * mult;
+      $("rateCard").innerHTML =
+        `<strong>Rate card hint:</strong> At <strong>${num(baseViews)}</strong> views and <strong>$${cpm}</strong> CPM` +
+        ` with ${mult.toFixed(1)}× placement, one integration ≈ <strong>${money(baseFee)}</strong>` +
+        (y2 ? ` · modeled year uses ${num(views)} views after growth.` : ".");
+
+      $("formulaNote").textContent = y2
+        ? `Y2 model uses ${num(views)} avg views and ${sponsors} sponsors after multipliers. AdSense still pro-rated by unlock months.`
+        : `AdSense active ${(adsFraction * 100).toFixed(0)}% of the year · ${num(sponsors)} integrations × ${money(feeEach)} each.`;
+
+      const reach = Math.round(niche * (capture / 100));
+      const fans = Math.round(reach * 0.15);
+      $("reachOut").textContent = num(reach);
+      $("fansOut").textContent = num(fans);
+    }
+
+    ids.forEach((id) => $(id).addEventListener("input", calc));
+    document.querySelectorAll(".preset").forEach((btn) => {
+      btn.addEventListener("click", () => applyPreset(btn.dataset.preset));
+    });
+    $("resetBtn").addEventListener("click", () => applyPreset("base"));
+    applyPreset("base");
+  </script>
+</body>
+</html>

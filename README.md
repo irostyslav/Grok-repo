@@ -11,6 +11,7 @@ Public web apps and tools generated with Grok Bot for Ross (Salesforce AI / Agen
 | App | Direct URL |
 | --- | --- |
 | YouTube Business Model Calculator | https://irostyslav.github.io/Grok-repo/apps/youtube-business-calculator/ |
+| YouTube Identity Kit | https://irostyslav.github.io/Grok-repo/apps/youtube-identity/ |
 
 ## Layout
 

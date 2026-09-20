@@ -1,0 +1,10 @@
+I break down Salesforce AI for partners and builders — Agentforce, AIforce, and Agent Exchange — with honest install reviews and plain-English frameworks.
+
+I work in Salesforce partner experience. Everything here is my personal analysis of public information, not an official Salesforce statement.
+
+New videos weekly:
+• Decode — what a release or keynote means for ISVs
+• Install Review — I install Agent Exchange apps and score them live
+• Map — simple frameworks you can use the same day
+
+If you ship on the Salesforce ecosystem, subscribe and tell me what to review next.

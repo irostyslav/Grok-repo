@@ -47,17 +47,153 @@
       padding: 4px 10px; border-radius: 999px; margin-bottom: 12px;
     }
     .presets { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 8px; }
-    button.preset, button.ghost {
+    button.preset, button.ghost, button.ask-btn {
       appearance: none; border: 1px solid var(--border); background: var(--panel2);
       color: var(--text); border-radius: 999px; padding: 8px 14px; font-weight: 600;
       cursor: pointer; transition: .15s ease;
     }
-    button.preset:hover, button.ghost:hover { border-color: var(--accent2); color: #fff; }
+    button.preset:hover, button.ghost:hover, button.ask-btn:hover { border-color: var(--accent2); color: #fff; }
     button.preset.active {
       background: linear-gradient(135deg, var(--accent), var(--accent2));
       border-color: transparent; color: #fff;
     }
     button.ghost { margin-left: auto; }
+    button.ask-btn {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-color: transparent; color: #fff; border-radius: 12px;
+      padding: 12px 20px; font-size: 1rem; width: 100%;
+    }
+    button.ask-btn:hover { filter: brightness(1.08); }
+    button.ask-btn:active { transform: scale(0.98); }
+    .ask-card {
+      background: linear-gradient(180deg, rgba(27,150,255,.08), transparent 50%), var(--panel);
+      border: 1px solid rgba(27,150,255,.35);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+    .ask-card h2 {
+      margin: 0 0 6px;
+      font-size: .95rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--muted);
+    }
+    .ask-card .ask-lead {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: .9rem;
+      line-height: 1.45;
+    }
+    #askInput {
+      width: 100%;
+      min-height: 88px;
+      resize: vertical;
+      background: var(--panel2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-family: var(--font);
+      font-size: 1rem;
+      line-height: 1.45;
+      margin-bottom: 10px;
+    }
+    #askInput:focus { outline: 2px solid rgba(27,150,255,.45); border-color: var(--accent2); }
+    #askInput::placeholder { color: #6a7a94; }
+    .ask-actions {
+      display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 12px;
+    }
+    .ask-actions .ask-btn { width: auto; flex: 1 1 180px; }
+    .ask-hint { font-size: .78rem; color: var(--muted); }
+    .chips {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px;
+    }
+    button.chip {
+      appearance: none;
+      border: 1px solid var(--border);
+      background: var(--panel2);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: .82rem;
+      cursor: pointer;
+      transition: .15s ease;
+      text-align: left;
+      line-height: 1.3;
+    }
+    button.chip:hover {
+      border-color: var(--accent2);
+      color: #fff;
+      background: rgba(27,150,255,.15);
+    }
+    .explain-panel {
+      display: none;
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 12px;
+      background: var(--panel2);
+      border: 1px solid var(--border);
+    }
+    .explain-panel.show { display: block; }
+    .explain-panel h3 {
+      margin: 0 0 10px;
+      font-size: .85rem;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--accent2);
+    }
+    .explain-section { margin-bottom: 14px; }
+    .explain-section:last-child { margin-bottom: 0; }
+    .understood {
+      display: flex; flex-wrap: wrap; gap: 6px;
+    }
+    .tag {
+      background: rgba(27,150,255,.12);
+      border: 1px solid rgba(27,150,255,.3);
+      color: var(--text);
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: .82rem;
+    }
+    .tag strong { color: var(--accent2); }
+    .money-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 8px;
+    }
+    .money-item {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+    .money-item.hero {
+      background: linear-gradient(135deg, rgba(11,92,171,.35), rgba(27,150,255,.12));
+      border-color: rgba(27,150,255,.4);
+    }
+    .money-item .mk {
+      font-size: .72rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .money-item .mv {
+      font-size: 1.15rem;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      margin-top: 2px;
+    }
+    .money-item.hero .mv { font-size: 1.35rem; color: #fff; }
+    .narrative {
+      font-size: .92rem;
+      line-height: 1.55;
+      color: var(--text);
+    }
+    .narrative p { margin: 0 0 10px; }
+    .narrative p:last-child { margin-bottom: 0; }
+    .narrative strong { color: var(--accent2); }
     .grid {
       display: grid;
       grid-template-columns: 1.15fr .85fr;
@@ -166,7 +302,7 @@
     <header>
       <div class="badge">YouTube · Salesforce AI / Agent Exchange niche</div>
       <h1>YouTube Business Model Calculator</h1>
-      <p>Live model for AdSense + sponsorships + optional workshops. Drag any control — totals update instantly. Estimates only, not a forecast.</p>
+      <p>Live model for AdSense + sponsorships + optional workshops. Ask in plain language or drag any control — totals update instantly. Estimates only, not a forecast.</p>
       <div class="presets">
         <button type="button" class="preset" data-preset="conservative">Conservative</button>
         <button type="button" class="preset active" data-preset="base">Base</button>
@@ -174,6 +310,36 @@
         <button type="button" class="ghost" id="resetBtn">Reset to Base</button>
       </div>
     </header>
+
+    <section class="ask-card" aria-labelledby="askHeading">
+      <h2 id="askHeading">Ask in plain language</h2>
+      <p class="ask-lead">Describe your scenario — views, videos, RPM, sponsors, workshops, presets, year 2 — and get every number explained.</p>
+      <textarea id="askInput" rows="3" placeholder="e.g. Base case with 5,000 views, 8 sponsors, dedicated review videos, unlock AdSense in 4 months, and project year 2"></textarea>
+      <div class="ask-actions">
+        <button type="button" class="ask-btn" id="askBtn">Calculate &amp; explain</button>
+        <span class="ask-hint">Tip: Ctrl/Cmd+Enter to run</span>
+      </div>
+      <div class="chips" id="exampleChips" aria-label="Example prompts">
+        <button type="button" class="chip" data-prompt="Conservative: 800 views, 50 videos, RPM $7, unlock in 9 months, 1 sponsor at $60 CPM">Conservative · 800 views · 1 sponsor</button>
+        <button type="button" class="chip" data-prompt="Base case with 2,500 views, 50 videos a year, RPM $9, AdSense unlocks in 6 months, 6 sponsors at $80 CPM">Base · 2.5k views · 6 sponsors</button>
+        <button type="button" class="chip" data-prompt="Upside: 8,000 views, RPM $11, unlock in 4 months, 10 dedicated review sponsors at $100 CPM, $5,000 workshops">Upside · dedicated reviews · workshops</button>
+        <button type="button" class="chip" data-prompt="What if I do 60 videos a year at 4,000 views, RPM 10, 8 sponsors, placement 1.5x, unlock after 3 months, and project year 2?">Custom · year 2 projection</button>
+      </div>
+      <div class="explain-panel" id="explainPanel" role="region" aria-live="polite" aria-label="Explanation">
+        <div class="explain-section">
+          <h3>What was understood</h3>
+          <div class="understood" id="understoodTags"></div>
+        </div>
+        <div class="explain-section">
+          <h3>Money outputs</h3>
+          <div class="money-grid" id="explainMoney"></div>
+        </div>
+        <div class="explain-section">
+          <h3>Plain-English explanation</h3>
+          <div class="narrative" id="explainNarrative"></div>
+        </div>
+      </div>
+    </section>
 
     <div class="grid">
       <section class="card">
@@ -314,7 +480,19 @@
 
     const ids = ["videos","views","rpm","unlock","sponsors","cpm","mult","workshops","y2","viewGrow","sponsorGrow","niche","capture"];
 
-    function applyPreset(name) {
+    function clamp(val, min, max) {
+      return Math.min(max, Math.max(min, val));
+    }
+
+    function setRange(id, value) {
+      const el = $(id);
+      const v = clamp(+value, +el.min, +el.max);
+      const step = +el.step || 1;
+      const rounded = Math.round(v / step) * step;
+      el.value = String(Number(rounded.toFixed(4)));
+    }
+
+    function applyPreset(name, skipCalc) {
       const p = presets[name];
       if (!p) return;
       $("videos").value = p.videos;
@@ -326,10 +504,10 @@
       $("mult").value = p.mult;
       $("workshops").value = p.workshops;
       document.querySelectorAll(".preset").forEach((b) => b.classList.toggle("active", b.dataset.preset === name));
-      calc();
+      if (!skipCalc) calc();
     }
 
-    function calc() {
+    function computeModel() {
       let videos = +$("videos").value;
       let views = +$("views").value;
       const rpm = +$("rpm").value;
@@ -344,7 +522,8 @@
       const niche = +$("niche").value;
       const capture = +$("capture").value;
 
-      $("y2Controls").classList.toggle("on", y2);
+      const baseViews = views;
+      const baseSponsors = sponsors;
 
       if (y2) {
         views = Math.round(views * viewGrow);
@@ -360,52 +539,379 @@
       const perVideo = videos ? total / videos : 0;
       const totalViews = videos * views;
       const perK = totalViews ? (total / totalViews) * 1000 : 0;
+      const baseFee = (baseViews / 1000) * cpm * mult;
+
+      return {
+        videos, views, rpm, unlock, sponsors, cpm, mult, workshops, y2,
+        viewGrow, sponsorGrow, niche, capture, baseViews, baseSponsors,
+        adsFraction, ads, feeEach, spon, other, total, perVideo, totalViews, perK, baseFee
+      };
+    }
+
+    function calc() {
+      const m = computeModel();
+
+      $("y2Controls").classList.toggle("on", m.y2);
 
       $("videosOut").textContent = num(+$("videos").value);
       $("viewsOut").textContent = num(+$("views").value);
       $("rpmOut").textContent = (+$("rpm").value).toFixed(2);
-      $("unlockOut").textContent = String(unlock);
+      $("unlockOut").textContent = String(m.unlock);
       $("sponsorsOut").textContent = String(+$("sponsors").value);
-      $("cpmOut").textContent = String(cpm);
-      $("multOut").textContent = mult.toFixed(2) + "×";
-      $("workshopsOut").textContent = money(workshops);
-      $("viewGrowOut").textContent = viewGrow.toFixed(1) + "×";
-      $("sponsorGrowOut").textContent = sponsorGrow.toFixed(1) + "×";
-      $("nicheOut").textContent = num(niche);
-      $("captureOut").textContent = capture.toFixed(1) + "%";
+      $("cpmOut").textContent = String(m.cpm);
+      $("multOut").textContent = m.mult.toFixed(2) + "×";
+      $("workshopsOut").textContent = money(m.workshops);
+      $("viewGrowOut").textContent = m.viewGrow.toFixed(1) + "×";
+      $("sponsorGrowOut").textContent = m.sponsorGrow.toFixed(1) + "×";
+      $("nicheOut").textContent = num(m.niche);
+      $("captureOut").textContent = m.capture.toFixed(1) + "%";
 
-      $("totalLabel").textContent = y2 ? "Year 2 projected total" : "Year 1 total revenue";
-      $("totalOut").textContent = money(total);
-      $("adsOut").textContent = money(ads);
-      $("sponOut").textContent = money(spon);
-      $("otherOut").textContent = money(other);
-      $("perVideoOut").textContent = money(perVideo);
-      $("perKOut").textContent = money1(perK);
+      $("totalLabel").textContent = m.y2 ? "Year 2 projected total" : "Year 1 total revenue";
+      $("totalOut").textContent = money(m.total);
+      $("adsOut").textContent = money(m.ads);
+      $("sponOut").textContent = money(m.spon);
+      $("otherOut").textContent = money(m.other);
+      $("perVideoOut").textContent = money(m.perVideo);
+      $("perKOut").textContent = money1(m.perK);
 
-      const sum = ads + spon + other || 1;
-      const aPct = (ads / sum) * 100;
-      const sPct = (spon / sum) * 100;
-      const oPct = (other / sum) * 100;
+      const sum = m.ads + m.spon + m.other || 1;
+      const aPct = (m.ads / sum) * 100;
+      const sPct = (m.spon / sum) * 100;
+      const oPct = (m.other / sum) * 100;
       $("bar").innerHTML =
         `<span style="width:${aPct}%;background:#1b96ff"></span>` +
         `<span style="width:${sPct}%;background:#3dd68c"></span>` +
         `<span style="width:${oPct}%;background:#c86bff"></span>`;
 
-      const baseViews = +$("views").value;
-      const baseFee = (baseViews / 1000) * cpm * mult;
       $("rateCard").innerHTML =
-        `<strong>Rate card hint:</strong> At <strong>${num(baseViews)}</strong> views and <strong>$${cpm}</strong> CPM` +
-        ` with ${mult.toFixed(1)}× placement, one integration ≈ <strong>${money(baseFee)}</strong>` +
-        (y2 ? ` · modeled year uses ${num(views)} views after growth.` : ".");
+        `<strong>Rate card hint:</strong> At <strong>${num(m.baseViews)}</strong> views and <strong>$${m.cpm}</strong> CPM` +
+        ` with ${m.mult.toFixed(1)}× placement, one integration ≈ <strong>${money(m.baseFee)}</strong>` +
+        (m.y2 ? ` · modeled year uses ${num(m.views)} views after growth.` : ".");
 
-      $("formulaNote").textContent = y2
-        ? `Y2 model uses ${num(views)} avg views and ${sponsors} sponsors after multipliers. AdSense still pro-rated by unlock months.`
-        : `AdSense active ${(adsFraction * 100).toFixed(0)}% of the year · ${num(sponsors)} integrations × ${money(feeEach)} each.`;
+      $("formulaNote").textContent = m.y2
+        ? `Y2 model uses ${num(m.views)} avg views and ${m.sponsors} sponsors after multipliers. AdSense still pro-rated by unlock months.`
+        : `AdSense active ${(m.adsFraction * 100).toFixed(0)}% of the year · ${num(m.sponsors)} integrations × ${money(m.feeEach)} each.`;
 
-      const reach = Math.round(niche * (capture / 100));
+      const reach = Math.round(m.niche * (m.capture / 100));
       const fans = Math.round(reach * 0.15);
       $("reachOut").textContent = num(reach);
       $("fansOut").textContent = num(fans);
+
+      return m;
+    }
+
+    /** Parse k/m suffixes and commas: 2.5k → 2500, 8,000 → 8000 */
+    function parseNumToken(raw) {
+      if (raw == null) return null;
+      let s = String(raw).trim().toLowerCase().replace(/,/g, "").replace(/\$/g, "");
+      const m = s.match(/^(-?\d+(?:\.\d+)?)(k|m)?$/i);
+      if (!m) return null;
+      let n = parseFloat(m[1]);
+      if (m[2] === "k") n *= 1000;
+      if (m[2] === "m") n *= 1000000;
+      return n;
+    }
+
+    function extractNumberNear(text, patterns, opts) {
+      opts = opts || {};
+      for (let i = 0; i < patterns.length; i++) {
+        const re = patterns[i];
+        const m = text.match(re);
+        if (!m) continue;
+        const token = m[1] != null ? m[1] : m[2];
+        const n = parseNumToken(token);
+        if (n == null || isNaN(n)) continue;
+        if (opts.min != null && n < opts.min) continue;
+        if (opts.max != null && n > opts.max) continue;
+        return n;
+      }
+      return null;
+    }
+
+    function parseAsk(text) {
+      const raw = (text || "").trim();
+      const t = raw.toLowerCase().replace(/[–—]/g, "-");
+      const understood = [];
+      const applied = {};
+
+      // Presets first (baseline), then overrides from the rest of the sentence
+      let presetName = null;
+      if (/\b(conservative|pessimistic|cautious)\b/.test(t)) presetName = "conservative";
+      else if (/\b(upside|optimistic|aggressive|best[- ]?case)\b/.test(t)) presetName = "upside";
+      else if (/\b(base(\s+case)?|baseline|default|mid[- ]?case)\b/.test(t)) presetName = "base";
+
+      if (presetName) {
+        Object.assign(applied, presets[presetName]);
+        understood.push({ key: "preset", label: "Preset", value: presetName });
+      }
+
+      // Views
+      let views = extractNumberNear(t, [
+        /(\d[\d,]*(?:\.\d+)?\s*[km]?)\s*(?:avg\s+)?(?:views?|viewers?)(?:\s+per\s+(?:video|long\s+video))?/i,
+        /(?:views?|viewers?)(?:\s+per\s+(?:video|long\s+video))?\s*(?:of|at|=|:|~|around|about|≈)?\s*(\d[\d,]*(?:\.\d+)?\s*[km]?)/i,
+        /(\d[\d,]*(?:\.\d+)?\s*[km]?)\s*(?:views?)\b/i
+      ], { min: 50, max: 500000 });
+      if (views != null) {
+        applied.views = Math.round(views);
+        understood.push({ key: "views", label: "Avg views / video", value: num(applied.views) });
+      }
+
+      // Videos per year
+      let videos = extractNumberNear(t, [
+        /(\d[\d,]*(?:\.\d+)?)\s*(?:videos?|uploads?|long\s+videos?)(?:\s*(?:per|\/|a|each)\s*year)?/i,
+        /(?:videos?|uploads?)\s*(?:per|\/|a|each)\s*year\s*(?:of|at|=|:|~|around|about)?\s*(\d[\d,]*(?:\.\d+)?)/i,
+        /(\d[\d,]*(?:\.\d+)?)\s*(?:videos?\s*(?:a|per|\/)\s*year)/i
+      ], { min: 1, max: 200 });
+      if (videos != null) {
+        applied.videos = Math.round(videos);
+        understood.push({ key: "videos", label: "Videos / year", value: String(applied.videos) });
+      }
+
+      // RPM
+      let rpm = extractNumberNear(t, [
+        /rpm\s*(?:of|at|=|:|~|around|about|\$)?\s*\$?\s*(\d[\d,]*(?:\.\d+)?)/i,
+        /(?:adsense\s+)?rpm\s*\$?\s*(\d[\d,]*(?:\.\d+)?)/i,
+        /\$?\s*(\d[\d,]*(?:\.\d+)?)\s*rpm\b/i
+      ], { min: 1, max: 50 });
+      if (rpm != null) {
+        applied.rpm = rpm;
+        understood.push({ key: "rpm", label: "AdSense RPM", value: "$" + Number(rpm).toFixed(2) });
+      }
+
+      // Unlock months
+      let unlock = extractNumberNear(t, [
+        /unlock(?:s|ed)?\s*(?:adsense|ypp|ads?)?\s*(?:in|after|at)?\s*(\d+)\s*months?/i,
+        /(?:adsense|ypp)\s*(?:in|after|unlocks?(?:\s+in)?)\s*(\d+)\s*months?/i,
+        /(\d+)\s*months?\s*(?:until|to|before)\s*(?:ypp|adsense|ads?\s*unlock)/i,
+        /unlock\s*(?:months?|=|:)?\s*(\d+)/i,
+        /months?\s*until\s*(?:ypp|adsense)\s*(?:=|:)?\s*(\d+)/i
+      ], { min: 0, max: 24 });
+      if (unlock == null && /\b(already\s+moneti[sz]ed|ypp\s+now|adsense\s+now|unlocked|no\s+unlock\s+wait)\b/.test(t)) {
+        unlock = 0;
+      }
+      if (unlock != null) {
+        applied.unlock = Math.round(unlock);
+        understood.push({ key: "unlock", label: "Months until AdSense", value: String(applied.unlock) });
+      }
+
+      // Sponsors count
+      let sponsors = extractNumberNear(t, [
+        /(\d[\d,]*(?:\.\d+)?)\s+(?:(?:sponsored|dedicated|install|review|full|video|brand)\s+)*(?:integrations?|sponsors?|sponsorships?|brand\s+deals?)(?:\s*(?:per|\/|a|each)\s*year)?/i,
+        /(\d[\d,]*(?:\.\d+)?)\s*(?:sponsored\s+)?(?:integrations?|sponsors?|sponsorships?|brand\s+deals?)(?:\s*(?:per|\/|a|each)\s*year)?/i,
+        /(?:sponsors?|sponsorships?|integrations?)\s*(?:per|\/|a|each)?\s*(?:year)?\s*(?:of|at|=|:|~|around|about)?\s*(\d[\d,]*(?:\.\d+)?)/i
+      ], { min: 0, max: 48 });
+      if (sponsors != null) {
+        applied.sponsors = Math.round(sponsors);
+        understood.push({ key: "sponsors", label: "Sponsors / year", value: String(applied.sponsors) });
+      }
+
+      // CPM
+      let cpm = extractNumberNear(t, [
+        /(?:sponsorship\s+)?cpm\s*(?:of|at|=|:|~|around|about|\$)?\s*\$?\s*(\d[\d,]*(?:\.\d+)?)/i,
+        /\$?\s*(\d[\d,]*(?:\.\d+)?)\s*cpm\b/i,
+        /at\s*\$?\s*(\d[\d,]*(?:\.\d+)?)\s*cpm/i
+      ], { min: 5, max: 300 });
+      if (cpm != null) {
+        applied.cpm = cpm;
+        understood.push({ key: "cpm", label: "Sponsorship CPM", value: "$" + Math.round(cpm) });
+      }
+
+      // Placement multiplier / dedicated review
+      let mult = extractNumberNear(t, [
+        /(?:placement\s+)?(?:multiplier|mult)\s*(?:of|at|=|:|~|x|×)?\s*(\d+(?:\.\d+)?)\s*[x×]?/i,
+        /(\d+(?:\.\d+)?)\s*[x×]\s*(?:placement|multiplier|mult)/i,
+        /placement\s*(?:=|:)?\s*(\d+(?:\.\d+)?)\s*[x×]?/i
+      ], { min: 1, max: 5 });
+      if (mult == null) {
+        if (/\b(dedicated\s+(install\s+)?review|full\s+review|dedicated\s+video|install\s+review)\b/.test(t)) {
+          mult = 1.5;
+        } else if (/\b(30\s*s|30-second|short\s+integration|mid[- ]?roll\s+only)\b/.test(t)) {
+          mult = 1;
+        }
+      }
+      if (mult != null) {
+        applied.mult = mult;
+        understood.push({ key: "mult", label: "Placement multiplier", value: Number(mult).toFixed(1) + "×" });
+      }
+
+      // Workshops
+      let workshops = extractNumberNear(t, [
+        /(?:workshops?|advisory|consulting)\s*(?:of|at|=|:|~|around|about|\$)?\s*\$?\s*(\d[\d,]*(?:\.\d+)?\s*[km]?)/i,
+        /\$?\s*(\d[\d,]*(?:\.\d+)?\s*[km]?)\s*(?:in\s+)?(?:workshops?|advisory|consulting)/i,
+        /workshops?\s*\/?\s*advisory\s*\$?\s*(\d[\d,]*(?:\.\d+)?\s*[km]?)/i
+      ], { min: 0, max: 200000 });
+      if (workshops == null && /\b(no\s+workshops?|without\s+workshops?|workshops?\s*(?:at\s+)?\$?0)\b/.test(t)) {
+        workshops = 0;
+      }
+      if (workshops != null) {
+        applied.workshops = Math.round(workshops);
+        understood.push({ key: "workshops", label: "Workshops / year", value: money(applied.workshops) });
+      }
+
+      // Year 2
+      let y2 = null;
+      if (/\b(year\s*2|y2|second\s+year|project\s+year\s*2|year-?two)\b/.test(t)) {
+        y2 = true;
+        if (/\b(not|no|without|disable|skip|off)\b.{0,20}\b(year\s*2|y2)\b/.test(t) ||
+            /\b(year\s*2|y2)\b.{0,20}\b(off|disabled|no)\b/.test(t) ||
+            /\b(year\s*1\s+only|just\s+year\s*1|first\s+year\s+only)\b/.test(t)) {
+          y2 = false;
+        }
+      }
+      if (y2 != null) {
+        applied.y2 = y2;
+        understood.push({ key: "y2", label: "Project Year 2", value: y2 ? "Yes" : "No" });
+      }
+
+      // Optional Y2 growth multipliers
+      let viewGrow = extractNumberNear(t, [
+        /(?:y2|year\s*2)?\s*views?\s*(?:growth|grow|multiplier|mult)?\s*(?:=|:|~|x|×)?\s*(\d+(?:\.\d+)?)\s*[x×]?/i,
+        /views?\s*multiplier\s*(?:=|:)?\s*(\d+(?:\.\d+)?)/i
+      ], { min: 1, max: 10 });
+      if (viewGrow != null && applied.y2 !== false) {
+        applied.viewGrow = viewGrow;
+        if (applied.y2 == null) applied.y2 = true;
+        understood.push({ key: "viewGrow", label: "Y2 views multiplier", value: Number(viewGrow).toFixed(1) + "×" });
+      }
+
+      let sponsorGrow = extractNumberNear(t, [
+        /(?:y2|year\s*2)?\s*sponsors?\s*(?:growth|grow|multiplier|mult)?\s*(?:=|:|~|x|×)?\s*(\d+(?:\.\d+)?)\s*[x×]?/i,
+        /sponsors?\s*multiplier\s*(?:=|:)?\s*(\d+(?:\.\d+)?)/i
+      ], { min: 1, max: 5 });
+      if (sponsorGrow != null && applied.y2 !== false) {
+        applied.sponsorGrow = sponsorGrow;
+        if (applied.y2 == null) applied.y2 = true;
+        understood.push({ key: "sponsorGrow", label: "Y2 sponsors multiplier", value: Number(sponsorGrow).toFixed(1) + "×" });
+      }
+
+      return { raw, applied, understood, presetName };
+    }
+
+    function applyParsed(parsed) {
+      if (parsed.presetName) {
+        applyPreset(parsed.presetName, true);
+      } else {
+        document.querySelectorAll(".preset").forEach((b) => b.classList.remove("active"));
+      }
+
+      const a = parsed.applied;
+      if (a.videos != null) setRange("videos", a.videos);
+      if (a.views != null) setRange("views", a.views);
+      if (a.rpm != null) setRange("rpm", a.rpm);
+      if (a.unlock != null) setRange("unlock", a.unlock);
+      if (a.sponsors != null) setRange("sponsors", a.sponsors);
+      if (a.cpm != null) setRange("cpm", a.cpm);
+      if (a.mult != null) setRange("mult", a.mult);
+      if (a.workshops != null) setRange("workshops", a.workshops);
+      if (a.viewGrow != null) setRange("viewGrow", a.viewGrow);
+      if (a.sponsorGrow != null) setRange("sponsorGrow", a.sponsorGrow);
+      if (a.y2 != null) $("y2").checked = !!a.y2;
+
+      return calc();
+    }
+
+    function buildNarrative(parsed, m) {
+      const yearLabel = m.y2 ? "Year 2 (projected)" : "Year 1";
+      const parts = [];
+
+      if (parsed.understood.length === 0) {
+        parts.push(
+          `<p>I didn’t pick up specific numbers from your request, so I’m explaining the <strong>current slider values</strong>. ` +
+          `Try mentioning views, videos per year, RPM, unlock months, sponsors, CPM, placement, workshops, a preset (conservative / base / upside), or year 2.</p>`
+        );
+      } else {
+        const list = parsed.understood.map((u) => `<strong>${u.label}</strong> → ${u.value}`).join("; ");
+        parts.push(`<p>From your request I set: ${list}. Sliders above are updated to match.</p>`);
+      }
+
+      parts.push(
+        `<p>For <strong>${yearLabel}</strong> you publish <strong>${num(+$("videos").value)}</strong> videos at ` +
+        `<strong>${num(m.baseViews)}</strong> average views` +
+        (m.y2 ? ` (modeled as <strong>${num(m.views)}</strong> after a ${m.viewGrow.toFixed(1)}× views multiplier)` : "") +
+        `. AdSense RPM is <strong>$${m.rpm.toFixed(2)}</strong>, with monetization unlocking after ` +
+        `<strong>${m.unlock}</strong> months — so ads only count for about ` +
+        `<strong>${(m.adsFraction * 100).toFixed(0)}%</strong> of the year.</p>`
+      );
+
+      parts.push(
+        `<p><strong>AdSense</strong> ≈ ${num(+$("videos").value)} videos × ${num(m.views)} views / 1,000 × $${m.rpm.toFixed(2)} RPM × ` +
+        `${(m.adsFraction).toFixed(2)} = <strong>${money(m.ads)}</strong>.</p>`
+      );
+
+      const baseSponsors = +$("sponsors").value;
+      parts.push(
+        `<p><strong>Sponsorships:</strong> one fee = ${num(m.views)} / 1,000 × $${m.cpm} CPM × ${m.mult.toFixed(1)}× placement ≈ ` +
+        `<strong>${money(m.feeEach)}</strong>. With <strong>${m.sponsors}</strong> integrations` +
+        (m.y2 && m.sponsors !== baseSponsors ? ` (${baseSponsors} base × ${m.sponsorGrow.toFixed(1)}×)` : "") +
+        `, annual sponsors = <strong>${money(m.spon)}</strong>.</p>`
+      );
+
+      if (m.other > 0) {
+        parts.push(`<p><strong>Workshops / advisory</strong> add <strong>${money(m.other)}</strong> for the year.</p>`);
+      } else {
+        parts.push(`<p><strong>Workshops / advisory</strong> are set to <strong>$0</strong> (keep them off until conflict rules allow).</p>`);
+      }
+
+      const mix = [];
+      if (m.total > 0) {
+        mix.push(`${((m.ads / m.total) * 100).toFixed(0)}% AdSense`);
+        mix.push(`${((m.spon / m.total) * 100).toFixed(0)}% sponsors`);
+        if (m.other > 0) mix.push(`${((m.other / m.total) * 100).toFixed(0)}% workshops`);
+      }
+
+      parts.push(
+        `<p><strong>Total ${yearLabel.toLowerCase()} revenue</strong> = AdSense + sponsors + workshops = ` +
+        `<strong>${money(m.total)}</strong>` +
+        (mix.length ? ` (${mix.join(" · ")})` : "") +
+        `. That’s about <strong>${money(m.perVideo)}</strong> per video and ` +
+        `<strong>${money1(m.perK)}</strong> blended per 1,000 views.</p>`
+      );
+
+      parts.push(
+        `<p>Rate-card check (pre-growth views): at <strong>${num(m.baseViews)}</strong> views and $${m.cpm} CPM with ` +
+        `${m.mult.toFixed(1)}× placement, one integration is roughly <strong>${money(m.baseFee)}</strong>.</p>`
+      );
+
+      return parts.join("");
+    }
+
+    function renderExplanation(parsed, m) {
+      const panel = $("explainPanel");
+      const tags = $("understoodTags");
+      const moneyEl = $("explainMoney");
+      const narrative = $("explainNarrative");
+
+      if (parsed.understood.length === 0) {
+        tags.innerHTML = `<span class="tag">No specific inputs parsed — showing current model</span>`;
+      } else {
+        tags.innerHTML = parsed.understood
+          .map((u) => `<span class="tag"><strong>${u.label}:</strong> ${u.value}</span>`)
+          .join("");
+      }
+
+      const yearLabel = m.y2 ? "Year 2 total" : "Year 1 total";
+      moneyEl.innerHTML = [
+        { k: yearLabel, v: money(m.total), hero: true },
+        { k: "AdSense / year", v: money(m.ads) },
+        { k: "Sponsorships / year", v: money(m.spon) },
+        { k: "Workshops / other", v: money(m.other) },
+        { k: "$ per video", v: money(m.perVideo) },
+        { k: "Blended / 1k views", v: money1(m.perK) },
+        { k: "Fee per integration", v: money(m.feeEach) }
+      ].map((item) =>
+        `<div class="money-item${item.hero ? " hero" : ""}"><div class="mk">${item.k}</div><div class="mv">${item.v}</div></div>`
+      ).join("");
+
+      narrative.innerHTML = buildNarrative(parsed, m);
+      panel.classList.add("show");
+      panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    function runAsk() {
+      const text = $("askInput").value;
+      const parsed = parseAsk(text);
+      const m = applyParsed(parsed);
+      renderExplanation(parsed, m);
     }
 
     ids.forEach((id) => $(id).addEventListener("input", calc));
@@ -413,6 +919,21 @@
       btn.addEventListener("click", () => applyPreset(btn.dataset.preset));
     });
     $("resetBtn").addEventListener("click", () => applyPreset("base"));
+
+    $("askBtn").addEventListener("click", runAsk);
+    $("askInput").addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault();
+        runAsk();
+      }
+    });
+    document.querySelectorAll("#exampleChips .chip").forEach((chip) => {
+      chip.addEventListener("click", () => {
+        $("askInput").value = chip.dataset.prompt || chip.textContent;
+        runAsk();
+      });
+    });
+
     applyPreset("base");
   </script>
 </body>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Depth of Field Simulator</title>
+</head>
+<body>
+  <p style="font-family:system-ui;padding:24px;color:#6b7280">Loading simulator…</p>
+  <script>
+    fetch('https://raw.githubusercontent.com/irostyslav/depth-of-field/main/index.html')
+      .then(function (r) { return r.text(); })
+      .then(function (html) {
+        document.open();
+        document.write(html);
+        document.close();
+      })
+      .catch(function () {
+        document.body.innerHTML = '<p style="font-family:system-ui;padding:24px">Could not load the simulator. Open <a href="https://github.com/irostyslav/depth-of-field">the repository</a>.</p>';
+      });
+  </script>
+</body>
+</html>
